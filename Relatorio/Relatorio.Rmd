@@ -1,0 +1,426 @@
+---
+title: Modelagem da Relação de Vendas de Cadeirinhas Infantis
+# informacoes da disciplina, exibidas no cabecalho do artigo
+disciplina: "Estatística Aplicada"
+periodo: "2026.1"
+professores:
+  - "Profa. Dra. Amanda Gomes"
+  - "Prof. Dr. Jerfson Bruno"
+  - "Prof. Dr. Gilberto Matos"
+
+# use letras para afiliacao
+# substitua "[Nome do Aluno]" pelos nomes dos ate 3 integrantes da equipe
+author:
+  - name: ""
+    affiliation: a
+  - name: ""
+    affiliation: a
+  - name: ""
+    affiliation: a
+address:
+  - code: a
+    address: Departamento de Ciência da Computação - UFCG
+
+# area do conhecimento (pelo menos uma)
+subject:
+  - "estatistica aplicada"
+  - "modelagem preditiva"
+  - "inferencia estatistica"
+
+# palavras-chave
+keywords:
+  - regressao linear multipla # coloque o principal metodo estatistico utilizado como primeira palavra chave a fim de facilitar a catalogacao do LEA
+  - testes de hipotese
+  - intervalos de confianca
+  - selecao de modelos
+  - analise de vendas
+  
+  
+
+# resumo - note a barra vertical e os dois espaços no início do parágrafo
+abstract: |
+  Este trabalho aplica a Regressão Linear Múltipla (RLM) para modelar o volume de vendas de cadeirinhas infantis (Sales) a partir da base de dados Carseats. O objetivo principal é quantificar o impacto de fatores como precificação, investimento em publicidade, perfil demográfico e exposição do produto no desempenho de vendas em 400 lojas, com foco na inferência estatística. A metodologia abrange uma análise exploratória preliminar, seguida pelo ajuste do modelo e pela avaliação da significância das variáveis explicativas por meio de testes de hipótese individuais e em conjunto . Além disso, o estudo constrói intervalos de confiança para os coeficientes, seleciona um modelo final ajustado e calcula intervalos de confiança e de predição para cenários hipotéticos. Dessa forma, o relatório vai além da predição, oferecendo uma interpretação prática e fundamentada das dinâmicas comerciais no varejo.
+
+# arquivo com a bibliografia do relatorio
+bibliography: modeloUFCG.bib
+
+output:
+  bookdown::pdf_book:
+    base_format: modeloUFCG::modeloUFCG
+---
+
+
+```{r definicoes, include=FALSE, message=FALSE, warning=FALSE}
+# pacotes a serem carregados para a analise
+library(ggplot2)
+theme_set(theme_bw())
+library(ggfortify)
+library(GGally)
+library(corrplot)
+library(broom)
+library(hnp)
+
+# definicoes globais
+knitr::opts_chunk$set(
+  fig.width = 5, fig.height = 4, out.width = "100%",
+  echo = FALSE, message = FALSE, warning = FALSE,
+  fig.pos = 'H'
+)
+
+# Carregando a base de dados
+dados <- read.csv("../dados/04_Carseats.csv", stringsAsFactors = TRUE)
+
+# funcao auxiliar: grafico de envelope simulado, silenciando mensagens do pacote hnp
+grafico_envelope <- function(modelo, seed = 1) {
+  set.seed(seed)
+  invisible(capture.output(
+    h <- hnp(modelo, halfnormal = FALSE, verb.sim = FALSE, plot.sim = FALSE)
+  ))
+  plot(h, xlab = "Quantis teóricos N(0,1)", ylab = "Resíduos",
+       main = "")
+}
+
+# funcao auxiliar: tabela de coeficientes formatada
+tabela_coeficientes <- function(modelo, digitos = 4) {
+  tab <- broom::tidy(modelo)
+  tab$term <- gsub("\\(Intercept\\)", "Intercepto", tab$term)
+  names(tab) <- c("Termo", "Estimativa", "Erro Padrão", "Estatística t", "p-valor")
+  knitr::kable(tab, format = "pipe", digits = digitos)
+}
+
+# funcao auxiliar: fator de inflacao de variancia (VIF), sem depender do pacote car
+vif_manual <- function(modelo) {
+  X <- model.matrix(modelo)[, -1, drop = FALSE]
+  sapply(colnames(X), function(cn) {
+    y <- X[, cn]
+    x <- X[, colnames(X) != cn, drop = FALSE]
+    r2 <- summary(lm(y ~ x))$r.squared
+    1 / (1 - r2)
+  })
+}
+```
+
+
+
+# Introdução
+
+A previsão do volume de vendas de um produto a partir de fatores como preço, concorrência, publicidade e características demográficas da região de venda constitui um problema recorrente em análises de varejo. A base Carseats, com dados simulados de vendas de cadeirinhas infantis em 400 lojas, permite ilustrar como esses fatores — precificação própria e da concorrência, investimento em publicidade, perfil socioeconômico da região (renda, população, idade, escolaridade) e a qualidade da exposição do produto na prateleira — se relacionam com o desempenho de vendas, e como essa relação pode ser quantificada e testada estatisticamente.
+
+Neste trabalho, o objetivo é modelar as vendas (Sales, em milhares de unidades) a partir das demais variáveis disponíveis na base, utilizando regressão linear múltipla (RLM) como ferramenta central de análise. Mais do que ajustar um modelo preditivo, o interesse do trabalho está em aplicar, sobre os coeficientes estimados, os instrumentos de inferência estatística estudados na disciplina: testes de hipótese sobre a significância de cada variável explicativa e intervalos de confiança para os parâmetros do modelo e para o valor médio esperado da resposta.
+
+Especificamente, buscamos: (i) descrever a base de dados e realizar uma análise exploratória uni e bivariada; (ii) ajustar um modelo de regressão linear múltipla com as variáveis explicativas disponíveis; (iii) testar formalmente a significância de cada coeficiente por meio de testes de hipótese individuais (teste $t$) e da significância conjunta do modelo (teste $F$); (iv) construir intervalos de confiança para os coeficientes estimados, interpretando seu significado prático; (v) selecionar um modelo final com base nesses resultados; e (vi) apresentar, para valores hipotéticos das variáveis explicativas, os intervalos de confiança para o valor médio esperado das vendas e os intervalos de predição para uma nova observação, discutindo a diferença entre ambos.
+
+
+## Modelo de regressão linear múltipla
+
+A ideia da regressão linear múltipla é explicar uma variável resposta $Y$ (no nosso caso, Sales, o volume de vendas em milhares de unidades) a partir de várias variáveis explicativas ao mesmo tempo, supondo que a relação entre elas é (aproximadamente) uma soma ponderada:
+
+$$
+Y_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + \cdots + \beta_{p-1} X_{i,p-1} + \varepsilon_i
+$$
+
+em que $\beta_0$ é o intercepto, cada $\beta_j$ mede o efeito da variável $X_j$ sobre as vendas (mantendo as outras variáveis fixas) e $\varepsilon_i$ é o erro, ou seja, a parte das vendas que o modelo não consegue explicar. Usando todas as variáveis da base Carseats, o modelo fica:
+
+$$
+\begin{aligned}
+\text{Sales}_i = \ \beta_0 &+ \beta_1\, \text{CompPrice}_i + \beta_2\, \text{Income}_i + \beta_3\, \text{Advertising}_i + \beta_4\, \text{Population}_i \\
+&+ \beta_5\, \text{Price}_i + \beta_6\, \text{ShelveLocGood}_i + \beta_7\, \text{ShelveLocMedium}_i + \beta_8\, \text{Age}_i \\
+&+ \beta_9\, \text{Education}_i + \beta_{10}\, \text{UrbanYes}_i + \beta_{11}\, \text{USYes}_i + \varepsilon_i
+\end{aligned}
+$$
+
+ShelveLocGood e ShelveLocMedium indicam se a exposição do produto é boa ou média (a categoria "Bad" fica implícita no intercepto), e UrbanYes/USYes indicam se a loja é urbana e se é dos EUA (a categoria "Não" fica implícita).
+
+Os $\beta_j$ são estimados pelo método dos mínimos quadrados, que escolhe a reta (ou "plano") que minimiza a soma dos quadrados dos erros de previsão. Para que os testes de hipótese e os intervalos de confiança que vamos usar façam sentido, o modelo assume que:
+
+* a relação entre as variáveis e as vendas é de fato aproximadamente linear;
+* os erros, em média, valem zero (o modelo não erra sistematicamente para cima ou para baixo);
+* os erros têm variância parecida em toda a faixa de valores (não erra muito mais para lojas grandes do que para pequenas, por exemplo);
+* os erros de uma loja não influenciam o erro de outra;
+* os erros seguem aproximadamente uma distribuição normal;
+* as variáveis explicativas não são muito redundantes entre si (isto será checado mais à frente com o VIF).
+
+
+## Testes de hipótese e intervalos de confiança
+
+Depois de ajustar o modelo, queremos saber quais variáveis realmente importam para explicar as vendas. Para cada coeficiente $\beta_j$, fazemos um teste de hipótese:
+
+$$
+H_0: \beta_j = 0 \quad \text{vs} \quad H_1: \beta_j \neq 0
+$$
+
+Ou seja, $H_0$ diz que a variável não tem efeito nenhum sobre as vendas. A estatística de teste é
+
+$$
+t_j = \frac{\hat{\beta}_j}{\text{ep}(\hat{\beta}_j)}
+$$
+
+que compara o tamanho do coeficiente estimado com o seu erro padrão. Quanto maior (em módulo) esse $t_j$, mais evidência temos de que a variável realmente tem efeito. Na prática, olhamos o p-valor: se for menor que 0,05, rejeitamos $H_0$ e dizemos que a variável é estatisticamente significante.
+
+Além de testar cada variável separadamente, existe um teste para saber se o modelo como um todo é útil — o teste $F$:
+
+$$
+H_0: \beta_1 = \beta_2 = \cdots = \beta_{p-1} = 0
+$$
+
+isto é, nenhuma das variáveis explica as vendas. Se o p-valor do teste $F$ for pequeno, rejeitamos essa hipótese e concluímos que pelo menos uma variável do modelo ajuda a explicar as vendas.
+
+Também calculamos intervalos de confiança para cada $\beta_j$, que dão uma faixa de valores plausíveis para o efeito real da variável (e não só um número). O intervalo de 95% de confiança é
+
+$$
+\hat{\beta}_j \pm t_{0{,}025,\, n-p} \cdot \text{ep}(\hat{\beta}_j)
+$$
+
+Na prática, dizemos que temos 95% de confiança de que o verdadeiro efeito da variável está dentro desse intervalo. Uma coisa útil: se o intervalo não contém o zero, isso é equivalente a rejeitar $H_0$ no teste $t$ — só que o intervalo ainda nos diz o tamanho plausível do efeito, não só se ele existe.
+
+## Diagnóstico do modelo
+
+Antes de confiar nos testes e intervalos acima, é preciso checar se o modelo está bem ajustado. Três coisas são verificadas: multicolinearidade, comportamento dos resíduos e observações estranhas na base.
+
+**Multicolinearidade** acontece quando duas ou mais variáveis explicativas carregam informação muito parecida (por exemplo, preço próprio e preço da concorrência podem andar juntos). Isso deixa as estimativas dos coeficientes instáveis, mesmo que o modelo continue prevendo bem. Medimos isso com o VIF (fator de inflação de variância) de cada variável:
+
+$$
+\text{VIF}_j = \frac{1}{1 - R_j^2}
+$$
+
+em que $R_j^2$ vem de uma regressão dessa variável contra todas as outras. Na prática, usamos a regra $\text{VIF}_j > 10$ como sinal de multicolinearidade preocupante.
+
+**Análise dos resíduos**: olhamos gráficos simples para checar se as suposições do modelo fazem sentido — resíduos contra valores previstos (para ver se não sobrou nenhum padrão que o modelo devia ter capturado), e um gráfico quantil-quantil (para checar se os resíduos se parecem com uma normal). O gráfico de envelope simulado é um reforço desse último ponto: compara os resíduos observados com uma faixa "esperada" caso o modelo estivesse correto; se a maioria dos pontos fica dentro da faixa, é um bom sinal.
+
+Por fim, olhamos observações que podem estar distorcendo o modelo, usando três critérios simples:
+
+* **Ponto atípico (outlier)**: o modelo erra muito para essa observação. Critério: resíduo padronizado $|t_i| > 2$.
+* **Ponto de alavanca**: a observação tem valores de variáveis explicativas muito fora do padrão das demais. Critério: $h_{ii} > 2p/n$.
+* **Ponto influente**: se essa observação for removida, os coeficientes mudam bastante. Critério: distância de Cook $D_i > 4/n$.
+
+Uma observação pode ser só uma coisa (por exemplo, atípica sem ser influente) ou várias ao mesmo tempo. O importante é checar se, tirando essas observações e reajustando o modelo, as conclusões continuam as mesmas
+
+## Inferência preditiva
+
+Depois de escolher o modelo final, dá para usá-lo para prever vendas em situações hipotéticas — por exemplo, "quanto uma loja com determinado preço, publicidade e exposição venderia?". Só que existem duas perguntas diferentes que podemos fazer, e cada uma tem seu próprio intervalo:
+
+**Intervalo de confiança para a média**: qual é a venda média esperada entre todas as lojas com essas mesmas características? A incerteza aqui vem só de estarmos estimando os coeficientes do modelo com uma amostra (e não a população toda):
+
+$$
+\hat{Y}_h \pm t_{0{,}025,\, n-p} \cdot \text{ep}(\hat{Y}_h)
+$$
+
+**Intervalo de predição**: qual seria a venda de uma loja específica, nova, com essas características? Aqui, além da incerteza sobre a média, somamos a variabilidade natural entre lojas (nem toda loja com o mesmo perfil vende exatamente a mesma coisa):
+
+$$
+\hat{Y}_h \pm t_{0{,}025,\, n-p} \cdot \sqrt{\text{ep}(\hat{Y}_h)^2 + \hat{\sigma}^2}
+$$
+
+Por causa dessa variabilidade extra, o intervalo de predição é sempre mais largo que o de confiança, para o mesmo cenário. A estimativa pontual (o valor previsto) é igual nos dois casos — a diferença está só na largura do intervalo, dependendo se queremos prever uma média ou uma loja individual.
+
+# Resultados
+
+## Descrição da base de dados
+```{r variaveis, results='asis'}
+tabela_variaveis <- data.frame(
+  Variável = c("Sales", "CompPrice", "Income", "Advertising", "Population",
+               "Price", "ShelveLoc", "Age", "Education", "Urban", "US"),
+  Descrição = c(
+    "Vendas de cadeirinhas infantis (variável resposta)",
+    "Preço cobrado pelo concorrente mais próximo",
+    "Renda média da comunidade da região de venda",
+    "Orçamento de publicidade local da loja",
+    "Tamanho da população da região de venda",
+    "Preço cobrado pela empresa pela cadeirinha infantil",
+    "Qualidade da localização do produto na prateleira",
+    "Idade média da população local",
+    "Nível educacional da região de venda",
+    "Loja localizada em área urbana",
+    "Loja localizada nos Estados Unidos"
+  ),
+  Unidade = c(
+    "milhares de unidades", "dólares", "milhares de dólares",
+    "milhares de dólares", "milhares de habitantes", "dólares",
+    "categórica (Bad, Medium, Good)", "anos", "anos de estudo",
+    "categórica (Yes, No)", "categórica (Yes, No)"
+  )
+)
+
+knitr::kable(tabela_variaveis, format = "pipe",
+             caption = "Variáveis da base de dados Carseats, descrição e unidade de medida.")
+```
+
+A base Carseats possui $n = 400$ observações (lojas) e 11 variáveis (Tabela 1), sendo Sales a variável resposta, sete variáveis quantitativas (CompPrice, Income, Advertising, Population, Price, Age, Education) e três variáveis categóricas (ShelveLoc, Urban, US). Não há valores ausentes em nenhuma das variáveis.
+
+## Análise exploratória
+
+### Estatísticas descritivas
+
+```{r descritivas, results='asis'}
+variaveis_num <- c("Sales", "CompPrice", "Income", "Advertising",
+                    "Population", "Price", "Age", "Education")
+
+estat_geral <- data.frame(
+  Variável = variaveis_num,
+  Média = sapply(dados[variaveis_num], mean),
+  Mediana = sapply(dados[variaveis_num], median),
+  `Desvio-padrão` = sapply(dados[variaveis_num], sd),
+  Q1 = sapply(dados[variaveis_num], quantile, probs = 0.25),
+  Q3 = sapply(dados[variaveis_num], quantile, probs = 0.75)
+)
+rownames(estat_geral) <- NULL
+
+knitr::kable(estat_geral, format = "pipe", digits = 2,
+             caption = "Estatísticas descritivas das variáveis quantitativas.")
+```
+
+```{r descritivasShelveLoc, results='asis'}
+estat_shelveloc <- aggregate(
+  Sales ~ ShelveLoc, data = dados,
+  FUN = function(x) c(media = mean(x), mediana = median(x), dp = sd(x))
+)
+estat_shelveloc <- do.call(data.frame, estat_shelveloc)
+names(estat_shelveloc) <- c("Qualidade da prateleira", "Média", "Mediana", "Desvio-padrão")
+
+knitr::kable(estat_shelveloc, format = "pipe", digits = 2,
+             caption = "Vendas (Sales), por qualidade de exposição na prateleira (ShelveLoc).")
+```
+
+A Tabela 2 mostra que as vendas (Sales) têm média de 7,50 mil unidades e mediana de 7,49 mil unidades, valores muito próximos, o que sugere uma distribuição sem grande assimetria; o desvio-padrão de 2,82 indica dispersão moderada em torno da média. Entre as variáveis explicativas, chama atenção a grande amplitude de Population (de 10 a 509 mil habitantes) e de Price (de 24 a 191 dólares), refletindo lojas em contextos bastante diferentes. Advertising tem mediana igual a 5 e mínimo igual a 0, indicando que uma parcela relevante das lojas não investe em publicidade local.
+
+A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do produto e o volume de vendas: lojas com prateleira classificada como "Good" vendem, em média, quase o dobro das lojas com prateleira "Bad" (10,21 contra 5,52 mil unidades), com a categoria "Medium" (7,31 mil unidades) numa posição intermediária. Essa diferença expressiva já sinaliza que ShelveLoc deve ser uma variável explicativa importante no modelo de regressão.
+
+
+
+
+### Visualização por categoria
+
+<!-- ÁREA DA BRANCH: graficos (COLEGA 1) -->
+
+```{r boxplots, fig.cap="Box-plot das vendas, por qualidade de prateleira."}
+# Colega 1:
+# inserir aqui o boxplot de Sales por ShelveLoc (ggplot2)
+```
+
+(texto interpretando o gráfico)
+
+### Matriz de correlação e dispersão
+
+<!-- ÁREA DA BRANCH: graficos (COLEGA 1) -->
+
+```{r corrplot, fig.cap="Matriz de correlações entre as variáveis quantitativas."}
+# Colega 1:
+# inserir aqui o corrplot
+```
+
+```{r ggpairs, fig.cap="Matriz de dispersão par a par."}
+# Colega 1:
+# inserir aqui o GGally::ggpairs
+```
+
+(texto interpretando as correlações — pode ser escrito em conjunto, pois a leitura costuma ficar mais fácil para quem produziu as estatísticas descritivas)
+
+## Modelo inicial: todas as variáveis explicativas
+
+<!-- ÁREA DA BRANCH: regressao (COLEGA 2) -->
+
+```{r modeloInicial, results='asis'}
+# Colega 2:
+# ajustar modelo1 <- lm(Sales ~ ..., data = dados)
+# e gerar tabela de coeficientes
+```
+
+(texto: R² e significância dos coeficientes)
+
+## Testes de hipótese e multicolinearidade (VIF)
+
+<!-- ÁREA DA BRANCH: regressao (COLEGA 2) -->
+
+```{r vif, results='asis'}
+# Colega 2:
+# calcular VIF de cada variável e apresentar em tabela
+```
+
+(texto: resultado dos testes t individuais, teste F conjunto e discussão sobre o VIF — há ou não multicolinearidade relevante?)
+
+## Seleção do modelo final
+
+<!-- ÁREA DA BRANCH: regressao (COLEGA 2) -->
+
+```{r selecaoModelo, results='asis'}
+# Colega 2:
+# comparação de modelos candidatos
+# (AIC, BIC, teste F, step())
+```
+
+(texto justificando o modelo final escolhido)
+
+## Diagnóstico do modelo selecionado
+
+<!-- ÁREA DA BRANCH: regressao (COLEGA 2) -->
+
+```{r diagnostico, fig.cap="Análise de resíduos do modelo final."}
+# Colega 2:
+# autoplot(modelo_final)
+```
+
+```{r envelope, fig.cap="Gráfico de envelope simulado."}
+# Colega 2:
+# grafico_envelope(modelo_final)
+```
+
+### Pontos atípicos, de alavanca e influentes
+
+```{r influentes, results='asis'}
+# Colega 2:
+# tabela de observações atípicas/alavanca/influentes
+```
+
+### Impacto da remoção dos pontos influentes
+
+```{r refinado, results='asis'}
+# Colega 2:
+# comparação dos coeficientes antes/depois da remoção
+```
+
+## Regressão com variáveis dummy
+
+<!-- ÁREA DA BRANCH: regressao (COLEGA 2) -->
+
+```{r dummies, echo=TRUE}
+# Colega 2:
+# incluir ShelveLoc, Urban e US no modelo
+# discutir a categoria de referência
+```
+
+## Comparação geral dos modelos
+
+<!-- ÁREA DA BRANCH: regressao (COLEGA 2) -->
+
+```{r comparaGeral, results='asis'}
+# Colega 2:
+# tabela final comparando todos os modelos ajustados
+```
+
+# Previsões
+
+<!-- ÁREA DA BRANCH: regressao (COLEGA 2) -->
+
+## Intervalo de confiança para o valor médio esperado
+
+```{r previsaoConfianca, results='asis'}
+# Colega 2:
+# predict(modelo_final, newdata = ..., interval = "confidence")
+```
+
+(texto de interpretação prática)
+
+## Intervalo de predição para uma nova observação
+
+```{r previsaoPredicao, results='asis'}
+# Colega 2:
+# predict(modelo_final, newdata = ..., interval = "prediction")
+```
+
+(texto de interpretação prática)
+
+# Conclusão
+
+<!-- ESCRITA EM CONJUNTO, AO FINAL -->
+
+(síntese: principais fatores associados às vendas, qualidade do modelo, limitações e distinção prática entre intervalo de confiança e intervalo de predição)

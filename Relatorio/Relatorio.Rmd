@@ -11,14 +11,14 @@ professores:
 # use letras para afiliacao
 # substitua "[Nome do Aluno]" pelos nomes dos ate 3 integrantes da equipe
 author:
-  - name: ""
-    affiliation: a
-  - name: ""
-    affiliation: a
-  - name: ""
-    affiliation: a
+  - name: "Kayo"
+    affiliation: Salvino
+  - name: "José Ryan Santos de Melo"
+    affiliation:
+  - name: "Hugo"
+    affiliation: Silva
 address:
-  - code: a
+  - code: 
     address: Departamento de Ciência da Computação - UFCG
 
 # area do conhecimento (pelo menos uma)
@@ -48,7 +48,6 @@ output:
   bookdown::pdf_book:
     base_format: modeloUFCG::modeloUFCG
 ---
-
 
 ```{r definicoes, include=FALSE, message=FALSE, warning=FALSE}
 # pacotes a serem carregados para a analise
@@ -99,6 +98,7 @@ vif_manual <- function(modelo) {
   })
 }
 ```
+
 
 
 
@@ -216,6 +216,7 @@ Por causa dessa variabilidade extra, o intervalo de predição é sempre mais la
 # Resultados
 
 ## Descrição da base de dados
+
 ```{r variaveis, results='asis'}
 tabela_variaveis <- data.frame(
   Variável = c("Sales", "CompPrice", "Income", "Advertising", "Population",
@@ -244,6 +245,7 @@ tabela_variaveis <- data.frame(
 knitr::kable(tabela_variaveis, format = "pipe",
              caption = "Variáveis da base de dados Carseats, descrição e unidade de medida.")
 ```
+
 
 A base Carseats possui $n = 400$ observações (lojas) e 11 variáveis (Tabela 1), sendo Sales a variável resposta, sete variáveis quantitativas (CompPrice, Income, Advertising, Population, Price, Age, Education) e três variáveis categóricas (ShelveLoc, Urban, US). Não há valores ausentes em nenhuma das variáveis.
 
@@ -281,6 +283,7 @@ knitr::kable(estat_shelveloc, format = "pipe", digits = 2,
              caption = "Vendas (Sales), por qualidade de exposição na prateleira (ShelveLoc).")
 ```
 
+
 A Tabela 2 mostra que as vendas (Sales) têm média de 7,50 mil unidades e mediana de 7,49 mil unidades, valores muito próximos, o que sugere uma distribuição sem grande assimetria; o desvio-padrão de 2,82 indica dispersão moderada em torno da média. Entre as variáveis explicativas, chama atenção a grande amplitude de Population (de 10 a 509 mil habitantes) e de Price (de 24 a 191 dólares), refletindo lojas em contextos bastante diferentes. Advertising tem mediana igual a 5 e mínimo igual a 0, indicando que uma parcela relevante das lojas não investe em publicidade local.
 
 A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do produto e o volume de vendas: lojas com prateleira classificada como "Good" vendem, em média, quase o dobro das lojas com prateleira "Bad" (10,21 contra 5,52 mil unidades), com a categoria "Medium" (7,31 mil unidades) numa posição intermediária. Essa diferença expressiva já sinaliza que ShelveLoc deve ser uma variável explicativa importante no modelo de regressão.
@@ -295,23 +298,110 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 ```{r boxplots, fig.cap="Box-plot das vendas, por qualidade de prateleira."}
 # Colega 1:
 # inserir aqui o boxplot de Sales por ShelveLoc (ggplot2)
+
+
+ggplot(dados, aes(x = ShelveLoc, y = Sales)) +
+  geom_boxplot() +
+  labs(
+    title = "Sales por ShelveLoc",
+    x = "ShelveLoc",
+    y = "Sales (milhares de unidades)"
+  ) +
+  theme_bw()
+
+
+resultado <- boxplot(
+  Sales ~ ShelveLoc,
+  data = dados,
+  plot = FALSE
+)
+
+resultado$out
+resultado$group
+levels(as.factor(dados$ShelveLoc))
+
+
 ```
 
-(texto interpretando o gráfico)
+
+Para ShelveLoc Good a mediana das vendas é a maior encontrada, sendo por volta de 12 mil unidades, ou seja,
+uma boa qualidade de prateleira tende a possuir maior número de vendas.
+
+Para a ShelveLoc Bad observamos valores médios próximos a 5000, menor mediana encontrada entre os dados. Dessa 
+forma, percebe-se que uma qualidade ruim resulta em uma quantidade menor de vendas.
+
+Por fim, para a ShelveLoc Medium observamos que ela possui uma mediana que de fato está entre a mediana de
+Good e de Bad. Além disso, podemos observar dois outliers, que feita a analise foram identificados sendo os valores 0.16 e 0,
+que são valores muito menores que o menor valor próximo a mediana para o grupo Medium.
+ 
 
 ### Matriz de correlação e dispersão
 
 <!-- ÁREA DA BRANCH: graficos (COLEGA 1) -->
 
-```{r corrplot, fig.cap="Matriz de correlações entre as variáveis quantitativas."}
+```{r corrplot, fig.cap="Matriz de correlações entre as variáveis quantitativas.", fig.width=10, fig.height=10, out.width="72%"}
 # Colega 1:
 # inserir aqui o corrplot
+
+library(corrplot)
+
+variaveis_quantitativas <- dados[
+  sapply(dados, is.numeric)
+]
+
+matriz_correlacao <- cor(
+  variaveis_quantitativas,
+  use = "complete.obs",
+  method = "pearson"
+)
+
+corrplot(
+  matriz_correlacao,
+  method = "color",
+  type = "upper",
+  addCoef.col = "black",
+  tl.col = "black",
+  tl.srt = 45,
+  number.cex = 0.7
+)
+
+
 ```
 
-```{r ggpairs, fig.cap="Matriz de dispersão par a par."}
+```{r ggpairs, fig.cap="Matriz de dispersão par a par.", fig.width=13, fig.height=7}
 # Colega 1:
 # inserir aqui o GGally::ggpairs
+
+library(GGally)
+
+GGally::ggpairs(
+  variaveis_quantitativas,
+  title = "Matriz de dispersão das variáveis quantitativas",
+  lower = list(
+    continuous = GGally::wrap(
+      "points",
+      alpha = 0.5,
+      size = 1
+    )
+  ),
+  diag = list(
+    continuous = GGally::wrap(
+      "densityDiag",
+      alpha = 0.5
+    )
+  ),
+  upper = list(
+    continuous = GGally::wrap(
+      "cor",
+      size = 4
+    )
+  )
+)
+
+
+
 ```
+
 
 (texto interpretando as correlações — pode ser escrito em conjunto, pois a leitura costuma ficar mais fácil para quem produziu as estatísticas descritivas)
 
@@ -325,6 +415,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # e gerar tabela de coeficientes
 ```
 
+
 (texto: R² e significância dos coeficientes)
 
 ## Testes de hipótese e multicolinearidade (VIF)
@@ -335,6 +426,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # Colega 2:
 # calcular VIF de cada variável e apresentar em tabela
 ```
+
 
 (texto: resultado dos testes t individuais, teste F conjunto e discussão sobre o VIF — há ou não multicolinearidade relevante?)
 
@@ -347,6 +439,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # comparação de modelos candidatos
 # (AIC, BIC, teste F, step())
 ```
+
 
 (texto justificando o modelo final escolhido)
 
@@ -364,6 +457,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # grafico_envelope(modelo_final)
 ```
 
+
 ### Pontos atípicos, de alavanca e influentes
 
 ```{r influentes, results='asis'}
@@ -371,12 +465,14 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # tabela de observações atípicas/alavanca/influentes
 ```
 
+
 ### Impacto da remoção dos pontos influentes
 
 ```{r refinado, results='asis'}
 # Colega 2:
 # comparação dos coeficientes antes/depois da remoção
 ```
+
 
 ## Regressão com variáveis dummy
 
@@ -388,6 +484,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # discutir a categoria de referência
 ```
 
+
 ## Comparação geral dos modelos
 
 <!-- ÁREA DA BRANCH: regressao (COLEGA 2) -->
@@ -396,6 +493,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # Colega 2:
 # tabela final comparando todos os modelos ajustados
 ```
+
 
 # Previsões
 
@@ -408,6 +506,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # predict(modelo_final, newdata = ..., interval = "confidence")
 ```
 
+
 (texto de interpretação prática)
 
 ## Intervalo de predição para uma nova observação
@@ -416,6 +515,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 # Colega 2:
 # predict(modelo_final, newdata = ..., interval = "prediction")
 ```
+
 
 (texto de interpretação prática)
 

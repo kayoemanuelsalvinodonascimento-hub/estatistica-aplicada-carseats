@@ -139,12 +139,12 @@
 \title{Modelagem da Relação de Vendas de Cadeirinhas Infantis}
 
 \author{
-$^{a}$,
-$^{a}$,
-$^{a}$}
+Kayo Emanuel Salvino do Nascimento$^{Salvino}$,
+José Ryan Santos de Melo$^{}$,
+Hugo Victor Pinheiro da Silva$^{Silva}$}
 
 \address{
-  $^{a}$Departamento de Ciência da Computação - UFCG}
+  $^{}$Departamento de Ciência da Computação - UFCG}
 %%%% Subject entries to be placed here %%%%
 \subject{
 estatistica aplicada,
@@ -161,7 +161,7 @@ analise de vendas}
 
 %%%% Abstract text to be placed here %%%%%%%%%%%%
 \begin{abstract}
-Este trabalho aplica a Regressão Linear Múltipla (RLM) para modelar o volume de vendas de cadeirinhas infantis (Sales) a partir da base de dados Carseats. O objetivo principal é quantificar o impacto de fatores como precificação, investimento em publicidade, perfil demográfico e exposição do produto no desempenho de vendas em 400 lojas, com foco na inferência estatística. A metodologia abrange uma análise exploratória preliminar, seguida pelo ajuste do modelo e pela avaliação da significância das variáveis explicativas por meio de testes de hipótese individuais e em conjunto . Além disso, o estudo constrói intervalos de confiança para os coeficientes, seleciona um modelo final ajustado e calcula intervalos de confiança e de predição para cenários hipotéticos. Dessa forma, o relatório vai além da predição, oferecendo uma interpretação prática e fundamentada das dinâmicas comerciais no varejo.
+Este trabalho aplica a Regressão Linear Múltipla (RLM) para modelar o volume de vendas de cadeirinhas infantis (Sales) a partir da base de dados Carseats. O objetivo principal é quantificar o impacto de fatores como precificação, investimento em publicidade, perfil demográfico e exposição do produto no desempenho de vendas em 400 lojas, com foco na inferência estatística. A metodologia abrange uma análise exploratória preliminar, seguida pelo ajuste do modelo e pela avaliação da significância das variáveis explicativas por meio de testes de hipótese individuais e em conjunto. Além disso, o estudo constrói intervalos de confiança para os coeficientes, seleciona um modelo final ajustado e calcula intervalos de confiança e de predição para cenários hipotéticos. Dessa forma, o relatório vai além da predição, oferecendo uma interpretação prática e fundamentada das dinâmicas comerciais no varejo.
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -175,11 +175,11 @@ Este trabalho aplica a Regressão Linear Múltipla (RLM) para modelar o volume d
 
 \section{Introdução}\label{introduuxe7uxe3o}
 
-A previsão do volume de vendas de um produto a partir de fatores como preço, concorrência, publicidade e características demográficas da região de venda constitui um problema recorrente em análises de varejo. A base Carseats, com dados simulados de vendas de cadeirinhas infantis em 400 lojas, permite ilustrar como esses fatores --- precificação própria e da concorrência, investimento em publicidade, perfil socioeconômico da região (renda, população, idade, escolaridade) e a qualidade da exposição do produto na prateleira --- se relacionam com o desempenho de vendas, e como essa relação pode ser quantificada e testada estatisticamente.
+Prever o volume de vendas de um produto a partir de preço, concorrência, publicidade e características da região de venda é um problema comum em análises de varejo. A base Carseats reúne dados simulados de vendas de cadeirinhas infantis em 400 lojas, e serve bem para mostrar como fatores como precificação própria e da concorrência, investimento em publicidade, perfil socioeconômico da região (renda, população, idade, escolaridade) e a qualidade da exposição do produto na prateleira se relacionam com o desempenho de vendas, de um jeito que pode ser quantificado e testado estatisticamente.
 
-Neste trabalho, o objetivo é modelar as vendas (Sales, em milhares de unidades) a partir das demais variáveis disponíveis na base, utilizando regressão linear múltipla (RLM) como ferramenta central de análise. Mais do que ajustar um modelo preditivo, o interesse do trabalho está em aplicar, sobre os coeficientes estimados, os instrumentos de inferência estatística estudados na disciplina: testes de hipótese sobre a significância de cada variável explicativa e intervalos de confiança para os parâmetros do modelo e para o valor médio esperado da resposta.
+O objetivo deste trabalho é modelar as vendas (Sales, em milhares de unidades) a partir das demais variáveis da base, usando regressão linear múltipla (RLM) como ferramenta central. Mais do que só ajustar um modelo preditivo, o foco aqui é aplicar sobre os coeficientes estimados os instrumentos de inferência estatística vistos na disciplina: testes de hipótese sobre a significância de cada variável explicativa, e intervalos de confiança para os parâmetros do modelo e para o valor médio esperado da resposta.
 
-Especificamente, buscamos: (i) descrever a base de dados e realizar uma análise exploratória uni e bivariada; (ii) ajustar um modelo de regressão linear múltipla com as variáveis explicativas disponíveis; (iii) testar formalmente a significância de cada coeficiente por meio de testes de hipótese individuais (teste \(t\)) e da significância conjunta do modelo (teste \(F\)); (iv) construir intervalos de confiança para os coeficientes estimados, interpretando seu significado prático; (v) selecionar um modelo final com base nesses resultados; e (vi) apresentar, para valores hipotéticos das variáveis explicativas, os intervalos de confiança para o valor médio esperado das vendas e os intervalos de predição para uma nova observação, discutindo a diferença entre ambos.
+De forma mais específica, o trabalho: (i) descreve a base de dados e faz uma análise exploratória uni e bivariada; (ii) ajusta um modelo de regressão linear múltipla com as variáveis explicativas disponíveis; (iii) testa formalmente a significância de cada coeficiente, com testes de hipótese individuais (teste \(t\)) e teste de significância conjunta do modelo (teste \(F\)); (iv) constrói intervalos de confiança para os coeficientes estimados e interpreta o que eles significam na prática; (v) escolhe um modelo final com base nesses resultados; e (vi) calcula, para valores hipotéticos das variáveis explicativas, os intervalos de confiança para o valor médio esperado das vendas e os intervalos de predição para uma nova observação, mostrando a diferença entre os dois.
 
 \subsection{Modelo de regressão linear múltipla}\label{modelo-de-regressuxe3o-linear-muxfaltipla}
 
@@ -214,7 +214,7 @@ Os \(\beta_j\) são estimados pelo método dos mínimos quadrados, que escolhe a
 \item
   os erros de uma loja não influenciam o erro de outra;
 \item
-  os erros seguem aproximadamente uma distribuição normal;
+  os erros seguem aproximadamente uma distribuição normal, suposição que testamos formalmente com o teste de Shapiro-Wilk, o mesmo teste de normalidade usado em outras partes da disciplina;
 \item
   as variáveis explicativas não são muito redundantes entre si (isto será checado mais à frente com o VIF).
 \end{itemize}
@@ -227,7 +227,7 @@ Depois de ajustar o modelo, queremos saber quais variáveis realmente importam p
 H_0: \beta_j = 0 \quad \text{vs} \quad H_1: \beta_j \neq 0
 \]
 
-Ou seja, \(H_0\) diz que a variável não tem efeito nenhum sobre as vendas. A estatística de teste é
+\(H_0\) diz que a variável não tem efeito nenhum sobre as vendas. A estatística de teste é
 
 \[
 t_j = \frac{\hat{\beta}_j}{\text{ep}(\hat{\beta}_j)}
@@ -235,13 +235,13 @@ t_j = \frac{\hat{\beta}_j}{\text{ep}(\hat{\beta}_j)}
 
 que compara o tamanho do coeficiente estimado com o seu erro padrão. Quanto maior (em módulo) esse \(t_j\), mais evidência temos de que a variável realmente tem efeito. Na prática, olhamos o p-valor: se for menor que 0,05, rejeitamos \(H_0\) e dizemos que a variável é estatisticamente significante.
 
-Além de testar cada variável separadamente, existe um teste para saber se o modelo como um todo é útil --- o teste \(F\):
+Além de testar cada variável separadamente, existe também um teste para saber se o modelo como um todo é útil: o teste \(F\)
 
 \[
 H_0: \beta_1 = \beta_2 = \cdots = \beta_{p-1} = 0
 \]
 
-isto é, nenhuma das variáveis explica as vendas. Se o p-valor do teste \(F\) for pequeno, rejeitamos essa hipótese e concluímos que pelo menos uma variável do modelo ajuda a explicar as vendas.
+isto é, nenhuma das variáveis explica as vendas. Se o p-valor do teste \(F\) for pequeno, rejeitamos essa hipótese e concluímos que pelo menos uma variável do modelo ajuda a explicar as vendas. O mesmo raciocínio do teste \(F\) é usado, mais à frente, para comparar dois modelos aninhados entre si (o modelo completo contra um modelo reduzido), verificando se as variáveis removidas realmente não fazem falta.
 
 Também calculamos intervalos de confiança para cada \(\beta_j\), que dão uma faixa de valores plausíveis para o efeito real da variável (e não só um número). O intervalo de 95\% de confiança é
 
@@ -249,13 +249,13 @@ Também calculamos intervalos de confiança para cada \(\beta_j\), que dão uma 
 \hat{\beta}_j \pm t_{0{,}025,\, n-p} \cdot \text{ep}(\hat{\beta}_j)
 \]
 
-Na prática, dizemos que temos 95\% de confiança de que o verdadeiro efeito da variável está dentro desse intervalo. Uma coisa útil: se o intervalo não contém o zero, isso é equivalente a rejeitar \(H_0\) no teste \(t\) --- só que o intervalo ainda nos diz o tamanho plausível do efeito, não só se ele existe.
+Isso quer dizer que, se repetíssemos o processo de amostragem muitas vezes, esperaríamos que 95\% dos intervalos construídos dessa forma contivessem o verdadeiro efeito da variável. Um detalhe importante: se o intervalo não contém o zero, isso equivale a rejeitar \(H_0\) no teste \(t\), só que o intervalo ainda mostra o tamanho plausível do efeito, não apenas se ele existe ou não.
 
 \subsection{Diagnóstico do modelo}\label{diagnuxf3stico-do-modelo}
 
-Antes de confiar nos testes e intervalos acima, é preciso checar se o modelo está bem ajustado. Três coisas são verificadas: multicolinearidade, comportamento dos resíduos e observações estranhas na base.
+Antes de confiar nos testes e intervalos acima, é preciso checar se o modelo está bem ajustado. Três coisas são verificadas: multicolinearidade, normalidade/comportamento dos resíduos e observações estranhas na base.
 
-\textbf{Multicolinearidade} acontece quando duas ou mais variáveis explicativas carregam informação muito parecida (por exemplo, preço próprio e preço da concorrência podem andar juntos). Isso deixa as estimativas dos coeficientes instáveis, mesmo que o modelo continue prevendo bem. Medimos isso com o VIF (fator de inflação de variância) de cada variável:
+A multicolinearidade acontece quando duas ou mais variáveis explicativas carregam informação parecida (preço próprio e preço da concorrência, por exemplo, tendem a andar juntos). Isso deixa as estimativas dos coeficientes instáveis, mesmo que o modelo continue prevendo bem. Medimos isso com o VIF, o fator de inflação de variância, calculado para cada variável como
 
 \[
 \text{VIF}_j = \frac{1}{1 - R_j^2}
@@ -263,83 +263,76 @@ Antes de confiar nos testes e intervalos acima, é preciso checar se o modelo es
 
 em que \(R_j^2\) vem de uma regressão dessa variável contra todas as outras. Na prática, usamos a regra \(\text{VIF}_j > 10\) como sinal de multicolinearidade preocupante.
 
-\textbf{Análise dos resíduos}: olhamos gráficos simples para checar se as suposições do modelo fazem sentido --- resíduos contra valores previstos (para ver se não sobrou nenhum padrão que o modelo devia ter capturado), e um gráfico quantil-quantil (para checar se os resíduos se parecem com uma normal). O gráfico de envelope simulado é um reforço desse último ponto: compara os resíduos observados com uma faixa ``esperada'' caso o modelo estivesse correto; se a maioria dos pontos fica dentro da faixa, é um bom sinal.
+Para checar a normalidade dos resíduos, usamos o teste de Shapiro-Wilk, cuja hipótese nula \(H_0\) é que os resíduos seguem distribuição normal. Se o p-valor for maior que 0,05, não rejeitamos \(H_0\) e isso dá suporte à suposição de normalidade. Complementamos essa checagem com gráficos de resíduos (resíduos versus valores ajustados e QQ-plot), pra ver visualmente se não sobrou algum padrão sistemático que o modelo devia ter capturado.
 
 Por fim, olhamos observações que podem estar distorcendo o modelo, usando três critérios simples:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Ponto atípico (outlier)}: o modelo erra muito para essa observação. Critério: resíduo padronizado \(|t_i| > 2\).
+  Ponto atípico (outlier): o modelo erra muito nessa observação. Critério: resíduo padronizado \(|t_i| > 2\).
 \item
-  \textbf{Ponto de alavanca}: a observação tem valores de variáveis explicativas muito fora do padrão das demais. Critério: \(h_{ii} > 2p/n\).
+  Ponto de alavanca: a observação tem valores de variáveis explicativas bem fora do padrão das demais. Critério: \(h_{ii} > 2p/n\).
 \item
-  \textbf{Ponto influente}: se essa observação for removida, os coeficientes mudam bastante. Critério: distância de Cook \(D_i > 4/n\).
+  Ponto influente: se essa observação sai da base, os coeficientes mudam bastante. Critério: distância de Cook \(D_i > 4/n\).
 \end{itemize}
 
-Uma observação pode ser só uma coisa (por exemplo, atípica sem ser influente) ou várias ao mesmo tempo. O importante é checar se, tirando essas observações e reajustando o modelo, as conclusões continuam as mesmas
+Uma observação pode ser só uma coisa (por exemplo, atípica sem ser influente) ou várias ao mesmo tempo. O importante é checar se, tirando essas observações e reajustando o modelo, as conclusões continuam as mesmas.
 
 \subsection{Inferência preditiva}\label{inferuxeancia-preditiva}
 
-Depois de escolher o modelo final, dá para usá-lo para prever vendas em situações hipotéticas --- por exemplo, ``quanto uma loja com determinado preço, publicidade e exposição venderia?''. Só que existem duas perguntas diferentes que podemos fazer, e cada uma tem seu próprio intervalo:
+Depois de escolher o modelo final, dá pra usá-lo pra prever vendas em situações hipotéticas, por exemplo ``quanto uma loja com determinado preço, publicidade e exposição venderia?''. Só que existem duas perguntas diferentes que podem ser feitas, e cada uma tem seu próprio intervalo.
 
-\textbf{Intervalo de confiança para a média}: qual é a venda média esperada entre todas as lojas com essas mesmas características? A incerteza aqui vem só de estarmos estimando os coeficientes do modelo com uma amostra (e não a população toda):
-
-\[
-\hat{Y}_h \pm t_{0{,}025,\, n-p} \cdot \text{ep}(\hat{Y}_h)
-\]
-
-\textbf{Intervalo de predição}: qual seria a venda de uma loja específica, nova, com essas características? Aqui, além da incerteza sobre a média, somamos a variabilidade natural entre lojas (nem toda loja com o mesmo perfil vende exatamente a mesma coisa):
+O intervalo de confiança para a média responde: qual é a venda média esperada entre todas as lojas com essas características? A incerteza aqui vem só do fato de estarmos estimando os coeficientes do modelo com uma amostra, e não com a população toda:
 
 \[
-\hat{Y}_h \pm t_{0{,}025,\, n-p} \cdot \sqrt{\text{ep}(\hat{Y}_h)^2 + \hat{\sigma}^2}
+\hat{Y}_h \pm t_{0{,}025,\, n-p} \cdot \text{ep}\!\left(\hat{Y}_h\right)
 \]
 
-Por causa dessa variabilidade extra, o intervalo de predição é sempre mais largo que o de confiança, para o mesmo cenário. A estimativa pontual (o valor previsto) é igual nos dois casos --- a diferença está só na largura do intervalo, dependendo se queremos prever uma média ou uma loja individual.
+Já o intervalo de predição responde outra pergunta: qual seria a venda de uma loja nova e específica, com essas mesmas características? Aqui, além da incerteza sobre a média, entra também a variabilidade natural entre lojas, já que nem toda loja com o mesmo perfil vende exatamente a mesma coisa:
+
+\[
+\hat{Y}_h \pm t_{0{,}025,\, n-p} \cdot \sqrt{\text{ep}\!\left(\hat{Y}_h\right)^2 + \hat{\sigma}^2}
+\]
+
+Por causa dessa variabilidade extra, o intervalo de predição é sempre mais largo que o de confiança, para o mesmo cenário. A estimativa pontual, ou seja, o valor previsto, é igual nos dois casos. A diferença está só na largura do intervalo, e depende de se estamos prevendo uma média ou uma loja individual.
 
 \section{Resultados}\label{resultados}
 
 \subsection{Descrição da base de dados}\label{descriuxe7uxe3o-da-base-de-dados}
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1263}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.5474}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3263}}@{}}
-\caption{\label{tab:variaveis}Variáveis da base de dados Carseats, descrição e unidade de medida.}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Variável
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Descrição
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Unidade
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Variável
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Descrição
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Unidade
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Sales & Vendas de cadeirinhas infantis (variável resposta) & milhares de unidades \\
-CompPrice & Preço cobrado pelo concorrente mais próximo & dólares \\
-Income & Renda média da comunidade da região de venda & milhares de dólares \\
-Advertising & Orçamento de publicidade local da loja & milhares de dólares \\
-Population & Tamanho da população da região de venda & milhares de habitantes \\
-Price & Preço cobrado pela empresa pela cadeirinha infantil & dólares \\
-ShelveLoc & Qualidade da localização do produto na prateleira & categórica (Bad, Medium, Good) \\
-Age & Idade média da população local & anos \\
-Education & Nível educacional da região de venda & anos de estudo \\
-Urban & Loja localizada em área urbana & categórica (Yes, No) \\
-US & Loja localizada nos Estados Unidos & categórica (Yes, No) \\
-\end{longtable}
+\begin{table}
+
+\caption{\label{tab:variaveis}Variáveis da base de dados Carseats, descrição e unidade de medida.}
+\centering
+\begin{tabular}[t]{l|l|l}
+\hline
+Variável & Descrição & Unidade\\
+\hline
+Sales & Vendas de cadeirinhas infantis (variável resposta) & milhares de unidades\\
+\hline
+CompPrice & Preço cobrado pelo concorrente mais próximo & dólares\\
+\hline
+Income & Renda média da comunidade da região de venda & milhares de dólares\\
+\hline
+Advertising & Orçamento de publicidade local da loja & milhares de dólares\\
+\hline
+Population & Tamanho da população da região de venda & milhares de habitantes\\
+\hline
+Price & Preço cobrado pela empresa pela cadeirinha infantil & dólares\\
+\hline
+ShelveLoc & Qualidade da localização do produto na prateleira & categórica (Bad, Medium, Good)\\
+\hline
+Age & Idade média da população local & anos\\
+\hline
+Education & Nível educacional da região de venda & anos de estudo\\
+\hline
+Urban & Loja localizada em área urbana & categórica (Yes, No)\\
+\hline
+US & Loja localizada nos Estados Unidos & categórica (Yes, No)\\
+\hline
+\end{tabular}
+\end{table}
 
 A base Carseats possui \(n = 400\) observações (lojas) e 11 variáveis (Tabela 1), sendo Sales a variável resposta, sete variáveis quantitativas (CompPrice, Income, Advertising, Population, Price, Age, Education) e três variáveis categóricas (ShelveLoc, Urban, US). Não há valores ausentes em nenhuma das variáveis.
 
@@ -347,98 +340,443 @@ A base Carseats possui \(n = 400\) observações (lojas) e 11 variáveis (Tabela
 
 \subsubsection{Estatísticas descritivas}\label{estatuxedsticas-descritivas}
 
-\begin{longtable}[]{@{}lrrrrr@{}}
-\caption{\label{tab:descritivas}Estatísticas descritivas das variáveis quantitativas.}\tabularnewline
-\toprule\noalign{}
-Variável & Média & Mediana & Desvio.padrão & Q1 & Q3 \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-Variável & Média & Mediana & Desvio.padrão & Q1 & Q3 \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Sales & 7.50 & 7.49 & 2.82 & 5.39 & 9.32 \\
-CompPrice & 124.97 & 125.00 & 15.33 & 115.00 & 135.00 \\
-Income & 68.66 & 69.00 & 27.99 & 42.75 & 91.00 \\
-Advertising & 6.64 & 5.00 & 6.65 & 0.00 & 12.00 \\
-Population & 264.84 & 272.00 & 147.38 & 139.00 & 398.50 \\
-Price & 115.80 & 117.00 & 23.68 & 100.00 & 131.00 \\
-Age & 53.32 & 54.50 & 16.20 & 39.75 & 66.00 \\
-Education & 13.90 & 14.00 & 2.62 & 12.00 & 16.00 \\
-\end{longtable}
+\begin{table}
 
-\begin{longtable}[]{@{}lrrr@{}}
-\caption{\label{tab:descritivasShelveLoc}Vendas (Sales), por qualidade de exposição na prateleira (ShelveLoc).}\tabularnewline
-\toprule\noalign{}
-Qualidade da prateleira & Média & Mediana & Desvio-padrão \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-Qualidade da prateleira & Média & Mediana & Desvio-padrão \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Bad & 5.52 & 5.21 & 2.36 \\
-Good & 10.21 & 10.50 & 2.50 \\
-Medium & 7.31 & 7.38 & 2.27 \\
-\end{longtable}
+\caption{\label{tab:descritivas}Estatísticas descritivas das variáveis quantitativas.}
+\centering
+\begin{tabular}[t]{l|r|r|r|r|r}
+\hline
+Variável & Média & Mediana & Desvio.padrão & Q1 & Q3\\
+\hline
+Sales & 7.50 & 7.49 & 2.82 & 5.39 & 9.32\\
+\hline
+CompPrice & 124.97 & 125.00 & 15.33 & 115.00 & 135.00\\
+\hline
+Income & 68.66 & 69.00 & 27.99 & 42.75 & 91.00\\
+\hline
+Advertising & 6.64 & 5.00 & 6.65 & 0.00 & 12.00\\
+\hline
+Population & 264.84 & 272.00 & 147.38 & 139.00 & 398.50\\
+\hline
+Price & 115.80 & 117.00 & 23.68 & 100.00 & 131.00\\
+\hline
+Age & 53.32 & 54.50 & 16.20 & 39.75 & 66.00\\
+\hline
+Education & 13.90 & 14.00 & 2.62 & 12.00 & 16.00\\
+\hline
+\end{tabular}
+\end{table}
 
-A Tabela 2 mostra que as vendas (Sales) têm média de 7,50 mil unidades e mediana de 7,49 mil unidades, valores muito próximos, o que sugere uma distribuição sem grande assimetria; o desvio-padrão de 2,82 indica dispersão moderada em torno da média. Entre as variáveis explicativas, chama atenção a grande amplitude de Population (de 10 a 509 mil habitantes) e de Price (de 24 a 191 dólares), refletindo lojas em contextos bastante diferentes. Advertising tem mediana igual a 5 e mínimo igual a 0, indicando que uma parcela relevante das lojas não investe em publicidade local.
+\begin{table}
 
-A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do produto e o volume de vendas: lojas com prateleira classificada como ``Good'' vendem, em média, quase o dobro das lojas com prateleira ``Bad'' (10,21 contra 5,52 mil unidades), com a categoria ``Medium'' (7,31 mil unidades) numa posição intermediária. Essa diferença expressiva já sinaliza que ShelveLoc deve ser uma variável explicativa importante no modelo de regressão.
+\caption{\label{tab:descritivasShelveLoc}Vendas (Sales), por qualidade de exposição na prateleira (ShelveLoc).}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Qualidade da prateleira & Média & Mediana & Desvio-padrão\\
+\hline
+Bad & 5.52 & 5.21 & 2.36\\
+\hline
+Medium & 7.31 & 7.38 & 2.27\\
+\hline
+Good & 10.21 & 10.50 & 2.50\\
+\hline
+\end{tabular}
+\end{table}
+
+A Tabela 2 mostra que Sales tem média de 7,50 mil unidades e mediana de 7,49, valores bem próximos, o que sugere que a distribuição não é muito assimétrica. O desvio-padrão de 2,82 mostra uma dispersão moderada em torno da média. Entre as explicativas, chama atenção a amplitude grande de Population (de 10 a 509 mil habitantes) e de Price (de 24 a 191 dólares), o que mostra lojas em contextos bem diferentes entre si. Advertising tem mediana 5 e mínimo 0, o que mostra que boa parte das lojas não investe em publicidade local.
+
+A Tabela 3 mostra uma relação clara entre a qualidade da exposição do produto e o volume de vendas: lojas com prateleira ``Good'' vendem, em média, quase o dobro das lojas com prateleira ``Bad'' (10,21 contra 5,52 mil unidades), e a categoria ``Medium'' fica numa posição intermediária (7,31 mil unidades). Essa diferença já indica que ShelveLoc deve pesar bastante no modelo de regressão.
+
+Além das medidas de posição e dispersão, é importante observar a forma da distribuição de cada variável isoladamente (análise univariada). A Figura 2 apresenta os histogramas das oito variáveis quantitativas.
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=1\linewidth]{Relatorio_files/figure-latex/histogramas-1} 
+
+}
+
+\caption{Distribuição das variáveis quantitativas.}\label{fig:histogramas}
+\end{figure}
+
+A maioria das variáveis tem distribuição aproximadamente simétrica: Sales, CompPrice, Income, Population, Price, Age e Education têm coeficientes de assimetria próximos de zero (entre \(-0{,}13\) e \(0{,}19\)), sem cauda longa em nenhum dos lados. A exceção fica por conta de Advertising, com assimetria positiva mais forte (\(\approx 0{,}64\)): a média (6,63) fica acima da mediana (5,00), e o histograma mostra bastante loja com pouco ou nenhum investimento em publicidade (mínimo igual a 0), com uma cauda à direita puxada pelas lojas que investem valores bem mais altos. Esse tipo de assimetria é comum em variáveis de gasto ou investimento, em que a maioria dos casos fica concentrada em valores baixos e poucos casos bem altos puxam a média pra cima.
 
 \subsubsection{Visualização por categoria}\label{visualizauxe7uxe3o-por-categoria}
 
-(texto interpretando o gráfico)
+\begin{figure}[H]
+
+{\centering \includegraphics[width=1\linewidth]{Relatorio_files/figure-latex/boxplots-1} 
+
+}
+
+\caption{Box-plot das vendas, por qualidade de prateleira.}\label{fig:boxplots}
+\end{figure}
+
+Para ShelveLoc Good a mediana das vendas é a maior encontrada, sendo por volta de 12 mil unidades, ou seja,
+uma boa qualidade de prateleira tende a possuir maior número de vendas.
+
+Para a ShelveLoc Bad observamos valores médios próximos a 5000, menor mediana encontrada entre os dados. Dessa
+forma, percebe-se que uma qualidade ruim resulta em uma quantidade menor de vendas.
+
+Por fim, para a ShelveLoc Medium observamos que ela possui uma mediana que de fato está entre a mediana de
+Good e de Bad. Além disso, podemos observar dois outliers, que feita a análise foram identificados sendo os valores 0,16 e 0,
+que são valores muito menores que o menor valor próximo à mediana para o grupo Medium.
 
 \subsubsection{Matriz de correlação e dispersão}\label{matriz-de-correlauxe7uxe3o-e-dispersuxe3o}
 
-(texto interpretando as correlações --- pode ser escrito em conjunto, pois a leitura costuma ficar mais fácil para quem produziu as estatísticas descritivas)
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.72\linewidth]{Relatorio_files/figure-latex/corrplot-1} 
+
+}
+
+\caption{Matriz de correlações entre as variáveis quantitativas.}\label{fig:corrplot}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=1\linewidth]{Relatorio_files/figure-latex/ggpairs-1} 
+
+}
+
+\caption{Matriz de dispersão par a par.}\label{fig:ggpairs}
+\end{figure}
+
+A matriz de correlações não mostra pares de variáveis explicativas fortemente correlacionados entre si: a maior correlação entre preditoras é entre CompPrice e Price (positiva, mas moderada), o que faz sentido, já que lojas em regiões onde o concorrente cobra mais caro tendem também a cobrar mais caro. Nenhuma correlação entre explicativas chega perto do limiar de 0,8 costumeiramente usado como indício de multicolinearidade, e isso será confirmado formalmente pelo VIF na próxima seção. Em relação à variável resposta, Sales se correlaciona mais forte (em módulo) com Price (negativa) e Advertising (positiva), o que bate com a intuição de que preço mais alto reduz vendas e mais publicidade aumenta vendas.
 
 \subsection{Modelo inicial: todas as variáveis explicativas}\label{modelo-inicial-todas-as-variuxe1veis-explicativas}
 
-(texto: R² e significância dos coeficientes)
+\begin{tabular}{l|r|r|r|r}
+\hline
+Termo & Estimativa & Erro Padrão & Estatística t & p-valor\\
+\hline
+Intercepto & 5.6606 & 0.6034 & 9.3805 & 0.0000\\
+\hline
+CompPrice & 0.0928 & 0.0041 & 22.3778 & 0.0000\\
+\hline
+Income & 0.0158 & 0.0018 & 8.5647 & 0.0000\\
+\hline
+Advertising & 0.1231 & 0.0111 & 11.0660 & 0.0000\\
+\hline
+Population & 0.0002 & 0.0004 & 0.5611 & 0.5750\\
+\hline
+Price & -0.0954 & 0.0027 & -35.7002 & 0.0000\\
+\hline
+Age & -0.0460 & 0.0032 & -14.4718 & 0.0000\\
+\hline
+Education & -0.0211 & 0.0197 & -1.0700 & 0.2853\\
+\hline
+Prateleira: Medium & 1.9567 & 0.1261 & 15.5165 & 0.0000\\
+\hline
+Prateleira: Good & 4.8502 & 0.1531 & 31.6778 & 0.0000\\
+\hline
+Urbano: Yes & 0.1229 & 0.1130 & 1.0877 & 0.2774\\
+\hline
+EUA: Yes & -0.1841 & 0.1498 & -1.2286 & 0.2200\\
+\hline
+\end{tabular}
+
+O modelo inicial, com as onze variáveis explicativas, tem ajuste alto (\(R^2\) ajustado \(\approx 0{,}870\)) e teste \(F\) global bem significante (\(p < 0{,}001\)). Mas nem todos os coeficientes são significantes a 5\%: Population (\(p \approx 0{,}575\)), Education (\(p \approx 0{,}285\)), Urban (\(p \approx 0{,}277\)) e US (\(p \approx 0{,}220\)) têm p-valor bem acima de 0,05, o que indica que essas variáveis não têm efeito linear detectável sobre as vendas, mantidas as demais fixas. Já CompPrice, Income, Advertising, Price, Age e as duas indicadoras de ShelveLoc são bem significantes (\(p < 0{,}001\) em todos os casos).
 
 \subsection{Testes de hipótese e multicolinearidade (VIF)}\label{testes-de-hipuxf3tese-e-multicolinearidade-vif}
 
-(texto: resultado dos testes t individuais, teste F conjunto e discussão sobre o VIF --- há ou não multicolinearidade relevante?)
+\begin{table}
+
+\caption{\label{tab:vif}Fator de inflação de variância (VIF) no modelo completo.}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+Variável & VIF\\
+\hline
+CompPrice & 1.55\\
+\hline
+Income & 1.02\\
+\hline
+Advertising & 2.10\\
+\hline
+Population & 1.15\\
+\hline
+Price & 1.54\\
+\hline
+Age & 1.02\\
+\hline
+Education & 1.03\\
+\hline
+ShelveLocMedium & 1.52\\
+\hline
+ShelveLocGood & 1.51\\
+\hline
+UrbanYes & 1.02\\
+\hline
+USYes & 1.98\\
+\hline
+\end{tabular}
+\end{table}
+
+Os testes \(t\) individuais (Tabela 4) já mostraram que quatro variáveis não são significantes. Quanto à multicolinearidade, o VIF de todas as variáveis fica bem abaixo do limiar de referência (10); o maior valor observado é perto de 2, na indicadora de US. Não há, portanto, evidência de multicolinearidade relevante entre as variáveis explicativas: cada uma carrega informação relativamente independente das demais, então a exclusão das variáveis não significantes pode ser feita só com base na significância estatística, sem risco de estar ``escondendo'' o efeito de outra variável colinear.
 
 \subsection{Seleção do modelo final}\label{seleuxe7uxe3o-do-modelo-final}
 
-(texto justificando o modelo final escolhido)
+\begin{table}
+
+\caption{\label{tab:selecaoModelo}Comparação dos modelos candidatos: ajuste, AIC e BIC.}
+\centering
+\begin{tabular}[t]{l|c|c|c}
+\hline
+Modelo & R² ajustado & AIC & BIC\\
+\hline
+modelo1 (completo) & 0.8698 & 1163.97 & 1215.86\\
+\hline
+modelo2 (sem Population, Education, Urban, US) & 0.8697 & 1160.47 & 1196.39\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:anovaSelecao}Teste F comparando o modelo reduzido (modelo2) ao modelo completo (modelo1).}
+\centering
+\begin{tabular}[t]{l|c|c|c|c|c|c}
+\hline
+Modelo & GL Res. & SQ Res. & GL & SQ & Estatística F & p-valor\\
+\hline
+modelo2 & 392 & 407.3869 & NA & NA & NA & NA\\
+\hline
+modelo1 & 388 & 402.8335 & 4 & 4.5533 & 1.0964 & 0.358\\
+\hline
+\end{tabular}
+\end{table}
+
+Ao remover as quatro variáveis não significantes (Population, Education, Urban e US), o modelo2 mantém um \(R^2\) ajustado praticamente igual ao do modelo completo, o que indica que o modelo mais simples é preferível. O teste \(F\) comparando os dois modelos aninhados confirma isso: \(p \approx 0{,}358\), então não rejeitamos a hipótese de que os coeficientes das quatro variáveis removidas são, em conjunto, iguais a zero. A remoção não causa perda significativa de ajuste. O modelo final adotado é:
+\[
+\begin{aligned}
+\text{Sales}_i = \ \beta_0 &+ \beta_1\,\text{CompPrice}_i + \beta_2\,\text{Income}_i + \beta_3\,\text{Advertising}_i \\
+&+ \beta_4\,\text{Price}_i + \beta_5\,\text{Age}_i + \beta_6\,\text{ShelveLocMedium}_i + \beta_7\,\text{ShelveLocGood}_i + \varepsilon_i
+\end{aligned}
+\]
+
+\begin{tabular}{l|r|r|r|r}
+\hline
+Termo & Estimativa & Erro Padrão & Estatística t & p-valor\\
+\hline
+Intercepto & 5.4752 & 0.5050 & 10.8419 & 0\\
+\hline
+CompPrice & 0.0926 & 0.0041 & 22.4510 & 0\\
+\hline
+Income & 0.0158 & 0.0018 & 8.5898 & 0\\
+\hline
+Advertising & 0.1159 & 0.0077 & 15.0064 & 0\\
+\hline
+Price & -0.0953 & 0.0027 & -35.6987 & 0\\
+\hline
+Age & -0.0461 & 0.0032 & -14.5206 & 0\\
+\hline
+Prateleira: Medium & 1.9520 & 0.1254 & 15.5692 & 0\\
+\hline
+Prateleira: Good & 4.8357 & 0.1525 & 31.7096 & 0\\
+\hline
+\end{tabular}
+
+O modelo2 mantém \(R^2\) ajustado praticamente igual ao do modelo completo (0,870 contra 0,870), agora com os sete coeficientes todos significantes (\(p < 0{,}001\)). Olhando os coeficientes: mantendo as demais variáveis fixas, cada US\$ 1 a mais no preço próprio (Price) está associado a uma queda de cerca de 95 unidades vendidas (coeficiente \(-0{,}0953\), em milhares de unidades); cada US\$ 1 mil a mais em publicidade (Advertising) está associado a um aumento de cerca de 116 unidades vendidas. Para a prateleira, uma loja com exposição ``Good'' vende, em média, 4.836 unidades a mais do que uma loja ``Bad'' (categoria de referência), e uma loja ``Medium'' vende 1.952 unidades a mais que ``Bad'', o que bate com a diferença já vista na análise exploratória (Tabela 3 e Figura 1).
 
 \subsection{Diagnóstico do modelo selecionado}\label{diagnuxf3stico-do-modelo-selecionado}
 
+\begin{table}
+
+\caption{\label{tab:vifModelo2}VIF das variáveis do modelo final.}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+Variável & VIF\\
+\hline
+CompPrice & 1.53\\
+\hline
+Income & 1.02\\
+\hline
+Advertising & 1.01\\
+\hline
+Price & 1.53\\
+\hline
+Age & 1.02\\
+\hline
+ShelveLocMedium & 1.50\\
+\hline
+ShelveLocGood & 1.50\\
+\hline
+\end{tabular}
+\end{table}
+
+O VIF de todas as variáveis do modelo final fica baixo (entre 1 e 1,5), o que confirma que não há multicolinearidade relevante também neste modelo reduzido.
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=1\linewidth]{Relatorio_files/figure-latex/diagnostico-1} 
+
+}
+
+\caption{Análise de resíduos do modelo final.}\label{fig:diagnostico}
+\end{figure}
+
+\begin{verbatim}
+shapiro.test(residuals(modelo2))
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(modelo2)
+## W = 0.99724, p-value = 0.7439
+\end{verbatim}
+
+O gráfico de resíduos versus valores ajustados (Figura 3) não mostra nenhum padrão sistemático, o que dá suporte à suposição de linearidade e variância constante. O QQ-plot mostra os pontos próximos da reta teórica, sem desvio grande nas caudas. O teste de Shapiro-Wilk confirma isso formalmente: com p-valor \(\approx 0{,}744\) (bem acima de 0,05), não rejeitamos a hipótese nula de normalidade dos resíduos. Como a normalidade não foi rejeitada, não é preciso recorrer a alternativas não paramétricas (como Mann-Whitney/Wilcoxon) pra validar comparações associadas ao modelo.
+
 \subsubsection{Pontos atípicos, de alavanca e influentes}\label{pontos-atuxedpicos-de-alavanca-e-influentes}
+
+\begin{table}
+
+\caption{\label{tab:influentes}Observações atípicas, de alavanca e/ou influentes (15 mais extremas por distância de Cook).}
+\centering
+\begin{tabular}[t]{r|l|r|r|r|c|c|c}
+\hline
+Observação & Prateleira & Resíduo estud. & Alavancagem & Dist. de Cook & Atípico & Alavanca & Influente\\
+\hline
+357 & Good & -2.66 & 0.037 & 0.0333 & Sim & Não & Sim\\
+\hline
+358 & Medium & 3.34 & 0.020 & 0.0272 & Sim & Não & Sim\\
+\hline
+248 & Bad & 2.35 & 0.032 & 0.0224 & Sim & Não & Sim\\
+\hline
+208 & Bad & 2.84 & 0.019 & 0.0188 & Sim & Não & Sim\\
+\hline
+285 & Bad & 2.47 & 0.024 & 0.0186 & Sim & Não & Sim\\
+\hline
+298 & Bad & -2.77 & 0.019 & 0.0179 & Sim & Não & Sim\\
+\hline
+16 & Medium & 2.64 & 0.020 & 0.0178 & Sim & Não & Sim\\
+\hline
+51 & Bad & -1.83 & 0.039 & 0.0171 & Não & Não & Sim\\
+\hline
+172 & Medium & 2.09 & 0.030 & 0.0169 & Sim & Não & Sim\\
+\hline
+366 & Medium & 2.44 & 0.022 & 0.0169 & Sim & Não & Sim\\
+\hline
+144 & Bad & -1.99 & 0.031 & 0.0157 & Não & Não & Sim\\
+\hline
+93 & Medium & -1.98 & 0.024 & 0.0121 & Não & Não & Sim\\
+\hline
+173 & Good & -1.92 & 0.026 & 0.0121 & Não & Não & Sim\\
+\hline
+26 & Good & 1.52 & 0.035 & 0.0105 & Não & Não & Sim\\
+\hline
+382 & Bad & 1.43 & 0.038 & 0.0101 & Não & Não & Sim\\
+\hline
+\end{tabular}
+\end{table}
+
+Com \(n = 400\) observações e \(p = 8\) parâmetros, o limiar de alavanca é \(2p/n = 0{,}04\) e o de influência (Cook) é \(4/n = 0{,}01\). Ao todo, 15 observações (3,75\%) são influentes pela distância de Cook, mas nenhuma delas tem distância de Cook alta em termos absolutos (o maior valor observado é 0,033), o que já indica que tirar essas observações não deve mudar muito as conclusões do modelo.
 
 \subsubsection{Impacto da remoção dos pontos influentes}\label{impacto-da-remouxe7uxe3o-dos-pontos-influentes}
 
-\subsection{Regressão com variáveis dummy}\label{regressuxe3o-com-variuxe1veis-dummy}
+\begin{table}
 
-\begin{verbatim}
-# Colega 2:
-# incluir ShelveLoc, Urban e US no modelo
-# discutir a categoria de referência
-\end{verbatim}
+\caption{\label{tab:refinado}Comparação das estimativas antes e depois da remoção dos pontos influentes.}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Termo & modelo2 (completo) & modelo2 (refinado) & Diferença (\%)\\
+\hline
+(Intercept) & 5.4752 & 5.4709 & -0.08\\
+\hline
+CompPrice & 0.0926 & 0.0906 & -2.13\\
+\hline
+Income & 0.0158 & 0.0161 & 2.27\\
+\hline
+Advertising & 0.1159 & 0.1184 & 2.12\\
+\hline
+Price & -0.0953 & -0.0933 & -2.08\\
+\hline
+Age & -0.0461 & -0.0470 & 1.86\\
+\hline
+ShelveLocMedium & 1.9520 & 1.9392 & -0.66\\
+\hline
+ShelveLocGood & 4.8357 & 4.8930 & 1.19\\
+\hline
+\end{tabular}
+\end{table}
+
+Ao tirar as 15 observações influentes, o \(R^2\) ajustado sobe de 0,870 para 0,887, e o erro-padrão residual cai de 1,019 para 0,927. As mudanças nos coeficientes são pequenas (a maioria abaixo de 2,5\% em módulo), o que mostra que essas observações são variabilidade natural dos dados, não erro de medição. Como a diferença nas estimativas é pequena e os pressupostos já eram atendidos pelo modelo completo (resíduos sem padrão, normalidade não rejeitada), optamos por manter todas as observações no modelo final usado na etapa de previsões, em vez de descartar informação sem evidência concreta de erro.
 
 \subsection{Comparação geral dos modelos}\label{comparauxe7uxe3o-geral-dos-modelos}
 
+\begin{table}
+
+\caption{\label{tab:comparaGeral}Comparação das medidas de ajuste entre todos os modelos considerados.}
+\centering
+\begin{tabular}[t]{l|r|r|r|r}
+\hline
+Modelo & n & R² ajustado & AIC & VIF máximo\\
+\hline
+modelo1 (completo, 11 variáveis) & 400 & 0.8698 & 1163.97 & 2.10\\
+\hline
+modelo2 (final, 7 variáveis) & 400 & 0.8697 & 1160.47 & 1.53\\
+\hline
+modelo2 refinado (sem influentes) & 385 & 0.8868 & 1044.15 & 1.53\\
+\hline
+\end{tabular}
+\end{table}
+
+O modelo2 (CompPrice, Income, Advertising, Price, Age e ShelveLoc) é o modelo usado na etapa de previsões: mantém praticamente o mesmo poder explicativo do modelo completo, com todos os coeficientes significantes, sem multicolinearidade relevante e com os pressupostos dos resíduos atendidos.
+
 \section{Previsões}\label{previsuxf5es}
+
+Usando o modelo2, calculamos as previsões para dois conjuntos hipotéticos de valores das variáveis explicativas: \(\mathbf{x}_1\), uma loja com CompPrice = 125, Income = 50, Advertising = 5, Price = 110, Age = 40 e prateleira Medium; e \(\mathbf{x}_2\), uma loja com CompPrice = 140, Income = 80, Advertising = 15, Price = 130, Age = 35 e prateleira Good.
 
 \subsection{Intervalo de confiança para o valor médio esperado}\label{intervalo-de-confianuxe7a-para-o-valor-muxe9dio-esperado}
 
-(texto de interpretação prática)
+\begin{table}
+
+\caption{\label{tab:previsaoConfianca}Intervalos de confiança de 95\% para as vendas médias esperadas.}
+\centering
+\begin{tabular}[t]{r|r|r|r|r|l|r|r|r}
+\hline
+CompPrice & Income & Advertising & Price & Age & ShelveLoc & fit & lwr & upr\\
+\hline
+125 & 50 & 5 & 110 & 40 & Medium & 8.037 & 7.859 & 8.215\\
+\hline
+140 & 80 & 15 & 130 & 35 & Good & 12.266 & 11.980 & 12.553\\
+\hline
+\end{tabular}
+\end{table}
+
+Na prática, para lojas com o perfil de \(\mathbf{x}_1\) (prateleira Medium), estimamos que as vendas médias, entre todas as lojas com essas mesmas características, fiquem entre 7,86 e 8,22 mil unidades, com 95\% de confiança. Para lojas com o perfil de \(\mathbf{x}_2\) (prateleira Good), as vendas médias esperadas ficam entre 11,98 e 12,55 mil unidades.
 
 \subsection{Intervalo de predição para uma nova observação}\label{intervalo-de-prediuxe7uxe3o-para-uma-nova-observauxe7uxe3o}
 
-(texto de interpretação prática)
+\begin{table}
+
+\caption{\label{tab:previsaoPredicao}Intervalos de predição de 95\% para as vendas de uma nova loja.}
+\centering
+\begin{tabular}[t]{r|r|r|r|r|l|r|r|r}
+\hline
+CompPrice & Income & Advertising & Price & Age & ShelveLoc & fit & lwr & upr\\
+\hline
+125 & 50 & 5 & 110 & 40 & Medium & 8.037 & 6.025 & 10.049\\
+\hline
+140 & 80 & 15 & 130 & 35 & Good & 12.266 & 10.242 & 14.291\\
+\hline
+\end{tabular}
+\end{table}
+
+Se observarmos uma única loja nova com o perfil de \(\mathbf{x}_1\), prevemos, com 95\% de confiança, que suas vendas vão ficar entre 6,03 e 10,05 mil unidades. É um intervalo bem mais largo que o de confiança para a média (7,86 a 8,22), porque soma à incerteza sobre a média a variabilidade individual entre lojas. Da mesma forma, para uma nova loja com o perfil de \(\mathbf{x}_2\), as vendas previstas ficam entre 10,24 e 14,29 mil unidades. Nos dois casos, a estimativa pontual (8,04 e 12,27 mil unidades) é igual para os dois tipos de intervalo; a diferença está só na largura, o que mostra a distinção entre estimar uma média populacional e prever uma observação individual.
 
 \section{Conclusão}\label{conclusuxe3o}
 
-(síntese: principais fatores associados às vendas, qualidade do modelo, limitações e distinção prática entre intervalo de confiança e intervalo de predição)
+A análise exploratória já indicava associação relevante entre as vendas e a qualidade de exposição na prateleira, além de correlações moderadas entre Sales, Price e Advertising, sem sinal de multicolinearidade entre as variáveis explicativas. O modelo inicial, com as onze variáveis disponíveis, teve ajuste alto (\(R^2\) ajustado \(\approx 0{,}870\)), mas quatro variáveis (Population, Education, Urban e US) não se mostraram significantes.
+
+O modelo final, escolhido pela remoção das variáveis não significantes e confirmado por teste \(F\), mantém CompPrice, Income, Advertising, Price, Age e ShelveLoc como variáveis explicativas. Ele preserva o mesmo poder explicativo do modelo completo, com todos os coeficientes significantes e VIF máximo em torno de 1,5, sem evidência de multicolinearidade. Os pressupostos do modelo foram checados por análise gráfica dos resíduos e formalmente pelo teste de Shapiro-Wilk (\(p \approx 0{,}744\)), que não rejeita a normalidade dos erros. A investigação de pontos influentes mostrou variações pequenas nos coeficientes depois da remoção, e por isso optamos por manter todas as observações no modelo final.
+
+Em termos práticos, o modelo mostra que preço próprio mais alto reduz as vendas, enquanto renda maior da região, mais publicidade e melhor exposição na prateleira aumentam as vendas, sendo a qualidade da prateleira o fator qualitativo com maior impacto isolado. Por fim, os intervalos de confiança e de predição calculados para dois cenários hipotéticos mostram na prática a diferença entre estimar a venda média esperada de um grupo de lojas e prever a venda de uma loja individual, sendo esta última sujeita a uma faixa de incerteza necessariamente mais ampla.
 
 
 

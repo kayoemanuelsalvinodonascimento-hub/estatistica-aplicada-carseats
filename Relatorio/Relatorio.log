@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.7.25)  25 JUL 2026 18:13
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.7.25)  30 JUL 2026 22:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -609,21 +609,44 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 209.
 (c:/ProgramData/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
-) [2] [3]
+) [2]
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 7.22505pt on input line 306.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 10.20007pt on input line 348.
-
-Underfull \hbox (badness 1292) in paragraph at lines 373--373
-[]\T1/ppl/m/n/9 Tabela 3: []  Ven-das (Sa-les), por qua-li-dade de ex-po-si-ção na pra-te-leira
+(Font)              scaled to size 7.22505pt on input line 306.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 10.20007pt on input line 341.
+[3]
+File: Relatorio_files/figure-latex/histogramas-1.pdf Graphic file (type pdf)
+<use Relatorio_files/figure-latex/histogramas-1.pdf>
+[4]
+File: Relatorio_files/figure-latex/boxplots-1.pdf Graphic file (type pdf)
+<use Relatorio_files/figure-latex/boxplots-1.pdf>
+[5]
+File: Relatorio_files/figure-latex/corrplot-1.pdf Graphic file (type pdf)
+<use Relatorio_files/figure-latex/corrplot-1.pdf>
+[6]
+File: Relatorio_files/figure-latex/ggpairs-1.pdf Graphic file (type pdf)
+<use Relatorio_files/figure-latex/ggpairs-1.pdf>
+[7]
+Underfull \hbox (badness 1490) in paragraph at lines 516--517
+[]\T1/ppl/m/n/9 Os tes-tes $\OML/cmm/m/it/9 t$ \T1/ppl/m/n/9 in-di-vi-du-ais (Ta-bela 4) já mos-tra-ram que qua-tro va-ri-á-veis não são sig-ni-fi-can-tes. Quanto à
  []
 
-[4]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 421.
+[8]
+Underfull \hbox (badness 1314) in paragraph at lines 609--610
+[]\T1/ppl/m/n/9 O VIF de to-das as va-ri-á-veis do mo-delo fi-nal fica baixo (en-tre 1 e 1,5), o que con-firma que não há
+ []
+
+File: Relatorio_files/figure-latex/diagnostico-1.pdf Graphic file (type pdf)
+<use Relatorio_files/figure-latex/diagnostico-1.pdf>
+[9]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 620.
 (c:/ProgramData/TinyTeX/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
+) [10] [11]
 No file Relatorio.bbl.
-Setting LastPage [5] (./Relatorio.aux)
+Setting LastPage [12] (./Relatorio.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
@@ -633,15 +656,15 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
 Package rerunfilecheck Info: File `Relatorio.out' has not changed.
-(rerunfilecheck)             Checksum: 43844A4EA10938CBFDA96AEBEBC67840;5528.
+(rerunfilecheck)             Checksum: CB3FCFB6F7AC559DE30AC78E24D326F9;5287.
  ) 
 Here is how much of TeX's memory you used:
- 14171 strings out of 469821
- 219395 string characters out of 5468676
- 673024 words of memory out of 5000000
- 42873 multiletter control sequences out of 15000+600000
- 662413 words of font info for 102 fonts, out of 8000000 for 9000
+ 14251 strings out of 469821
+ 222440 string characters out of 5468676
+ 677713 words of memory out of 5000000
+ 42945 multiletter control sequences out of 15000+600000
+ 665869 words of font info for 106 fonts, out of 8000000 for 9000
  26 hyphenation exceptions out of 8191
- 86i,12n,93p,920b,490s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 86i,12n,93p,919b,388s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Relatorio.pdf (5 pages).
+Output written on Relatorio.pdf (12 pages).

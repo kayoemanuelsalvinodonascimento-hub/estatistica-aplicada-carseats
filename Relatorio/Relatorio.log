@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.7.25)  30 JUL 2026 22:48
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.7.25)  31 JUL 2026 09:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -620,6 +620,10 @@ LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 File: Relatorio_files/figure-latex/histogramas-1.pdf Graphic file (type pdf)
 <use Relatorio_files/figure-latex/histogramas-1.pdf>
 [4]
+Underfull \hbox (badness 1231) in paragraph at lines 402--403
+\T1/ppl/m/n/9 em ne-nhum dos la-dos. A ex-ce-ção fica por conta de Ad-ver-ti-sing, com as-si-me-tria po-si-tiva mais forte, de
+ []
+
 File: Relatorio_files/figure-latex/boxplots-1.pdf Graphic file (type pdf)
 <use Relatorio_files/figure-latex/boxplots-1.pdf>
 [5]
@@ -634,10 +638,6 @@ Underfull \hbox (badness 1490) in paragraph at lines 516--517
  []
 
 [8]
-Underfull \hbox (badness 1314) in paragraph at lines 609--610
-[]\T1/ppl/m/n/9 O VIF de to-das as va-ri-á-veis do mo-delo fi-nal fica baixo (en-tre 1 e 1,5), o que con-firma que não há
- []
-
 File: Relatorio_files/figure-latex/diagnostico-1.pdf Graphic file (type pdf)
 <use Relatorio_files/figure-latex/diagnostico-1.pdf>
 [9]
@@ -645,8 +645,13 @@ LaTeX Font Info:    Trying to load font information for T1+pcr on input line 620
 (c:/ProgramData/TinyTeX/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [10] [11]
+Overfull \hbox (4.88588pt too wide) in paragraph at lines 789--790
+[]\T1/ppl/m/n/9 R Do-cu-men-ta-tion. 2024 \T1/ppl/m/it/9 Sa-les of Child Car Se-ats (Car-se-ats)\T1/ppl/m/n/9 . Dis-po-ní-vel em: [][]$\T1/pcr/m/n/9 https : / / www . rdocumentation .
+ []
+
+[12]
 No file Relatorio.bbl.
-Setting LastPage [12] (./Relatorio.aux)
+Setting LastPage [13] (./Relatorio.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
@@ -656,15 +661,15 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
 Package rerunfilecheck Info: File `Relatorio.out' has not changed.
-(rerunfilecheck)             Checksum: CB3FCFB6F7AC559DE30AC78E24D326F9;5287.
+(rerunfilecheck)             Checksum: 783D7C3363C3CF51C31531E8DD354B47;5402.
  ) 
 Here is how much of TeX's memory you used:
- 14251 strings out of 469821
- 222440 string characters out of 5468676
- 677713 words of memory out of 5000000
- 42945 multiletter control sequences out of 15000+600000
- 665869 words of font info for 106 fonts, out of 8000000 for 9000
+ 14256 strings out of 469821
+ 222538 string characters out of 5468676
+ 677889 words of memory out of 5000000
+ 42949 multiletter control sequences out of 15000+600000
+ 666766 words of font info for 107 fonts, out of 8000000 for 9000
  26 hyphenation exceptions out of 8191
- 86i,12n,93p,919b,388s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 86i,12n,93p,919b,488s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Relatorio.pdf (12 pages).
+Output written on Relatorio.pdf (13 pages).

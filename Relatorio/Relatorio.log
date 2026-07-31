@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2025/dev/Debian) (preloaded format=xelatex 2025.12.13)  30 JUL 2026 17:56
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2025/dev/Debian) (preloaded format=xelatex 2025.12.13)  30 JUL 2026 21:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -503,7 +503,11 @@ File: l3backend-xetex.def 2024-05-08 L3 backend support: XeTeX
 \l__pdf_internal_box=\box74
 \g__pdf_backend_annotation_int=\count337
 \g__pdf_backend_link_int=\count338
-) (./Relatorio.aux)
+) (./Relatorio.aux
+
+LaTeX Warning: Label `tab:modeloInicial' multiply defined.
+
+)
 \openout1 = `Relatorio.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 136.
@@ -644,11 +648,6 @@ LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 
 
 [4]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 40
-4.
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
 File: Relatorio_files/figure-latex/corrplot-1.pdf Graphic file (type pdf)
 <use Relatorio_files/figure-latex/corrplot-1.pdf>
 
@@ -659,10 +658,17 @@ File: Relatorio_files/figure-latex/ggpairs-1.pdf Graphic file (type pdf)
 
 
 [6]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 50
+0.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+
+[7]
 No file Relatorio.bbl.
 Setting LastPage
 
-[7] (./Relatorio.aux)
+[8] (./Relatorio.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -671,16 +677,19 @@ L3 programming layer <2025-01-18>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `Relatorio.out' has not changed.
 (rerunfilecheck)             Checksum: 43844A4EA10938CBFDA96AEBEBC67840;5528.
  ) 
 Here is how much of TeX's memory you used:
- 14174 strings out of 473835
- 219097 string characters out of 5731945
- 654199 words of memory out of 5000000
- 36986 multiletter control sequences out of 15000+600000
+ 14177 strings out of 473835
+ 219125 string characters out of 5731945
+ 654418 words of memory out of 5000000
+ 36989 multiletter control sequences out of 15000+600000
  596898 words of font info for 100 fonts, out of 8000000 for 9000
  1358 hyphenation exceptions out of 8191
  87i,12n,93p,920b,484s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Relatorio.pdf (7 pages).
+Output written on Relatorio.pdf (8 pages).

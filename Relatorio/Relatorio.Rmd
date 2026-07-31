@@ -295,7 +295,7 @@ A Tabela 3 evidencia uma relação clara entre a qualidade da exposição do pro
 
 <!-- ÁREA DA BRANCH: graficos (COLEGA 1) -->
 
-```{r boxplots, fig.cap="Box-plot das vendas, por qualidade de prateleira."}
+```{r boxplots, fig.cap="Box-plot das vendas, por qualidade de prateleira.", out.width="70%"}
 # Colega 1:
 # inserir aqui o boxplot de Sales por ShelveLoc (ggplot2)
 
@@ -305,7 +305,7 @@ ggplot(dados, aes(x = ShelveLoc, y = Sales)) +
   labs(
     title = "Sales por ShelveLoc",
     x = "ShelveLoc",
-    y = "Sales (milhares de unidades)"
+    y = "Sales"
   ) +
   theme_bw()
 
@@ -316,9 +316,9 @@ resultado <- boxplot(
   plot = FALSE
 )
 
-resultado$out
-resultado$group
-levels(as.factor(dados$ShelveLoc))
+# resultado$out
+# resultado$group
+# levels(as.factor(dados$ShelveLoc))
 
 
 ```
@@ -413,10 +413,44 @@ GGally::ggpairs(
 # Colega 2:
 # ajustar modelo1 <- lm(Sales ~ ..., data = dados)
 # e gerar tabela de coeficientes
+
+modelo1 <- lm(
+  Sales ~ .,
+  data = dados
+)
+
+# summary(modelo1)
+
+# summary(modelo1)$r.squared
+
+summary_modelo1 <- summary(modelo1)
+
+tabela_modelo1 <- as.data.frame(
+  summary_modelo1$coefficients
+)
+
+knitr::kable(tabela_modelo1, format = "pipe", digits = 3,
+             caption = "Tabela de coeficientes do modelo inicial.")
+
+
+tabela_metricas <- data.frame(
+  Metrica = c("$R^2$", "$R^2$ ajustado", "Erro padrão residual", "Número de observações"),
+  Valor = c(summary_modelo1$r.squared, summary_modelo1$adj.r.squared, summary_modelo1$sigma, length(summary_modelo1$residuals))
+)
+
+knitr::kable(
+  tabela_metricas,
+  format = "pipe",
+  digits = 3,
+  caption = "Métricas de ajuste do modelo inicial."
+)
+
 ```
 
 
 (texto: R² e significância dos coeficientes)
+
+
 
 ## Testes de hipótese e multicolinearidade (VIF)
 
